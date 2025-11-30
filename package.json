@@ -1,0 +1,38 @@
+{
+  "name": "nulltalk",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "gibb": "^1.0.3",
+    "leo-profanity": "^1.8.0",
+    "mongoose": "^8.19.2",
+    "nanoid": "^5.1.6",
+    "next": "16.0.0",
+    "prisma": "^6.18.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "sentiment": "^5.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/leo-profanity": "^1.5.4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/sentiment": "^5.0.4",
+    "baseline-browser-mapping": "^2.8.32",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  description String?
+  Confession  Confession[]
+}
+
+model Confession {
+  id              String           @id
+  content         String
+  categoryId      Int?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime
+  sentiment       Float?
+  upvotes         Int              @default(0)
+  downvotes       Int              @default(0)
+  isRevealed      Boolean          @default(false)
+  revealVotes     Int              @default(10)
+  isDeleted       Boolean          @default(false)
+  deleteAfter     DateTime?
+  authorId        String?
+  User            User?            @relation(fields: [authorId], references: [id])
+  Category        Category?        @relation(fields: [categoryId], references: [id])
+  ModerationQueue ModerationQueue?
+  Reveal          Reveal[]
+  Vote            Vote[]
+}
+
+model ModerationQueue {
+  id           String     @id
+  confessionId String     @unique
+  reason       String?
+  reviewed     Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  Confession   Confession @relation(fields: [confessionId], references: [id])
+}
+
+model Reveal {
+  id            String     @id
+  confessionId  String
+  revealedAt    DateTime?  @default(now())
+  triggeredById String?
+  Confession    Confession @relation(fields: [confessionId], references: [id])
+}
+
+model User {
+  id         String       @id
+  alias      String       @unique
+  createdAt  DateTime     @default(now())
+  Confession Confession[]
+  Vote       Vote[]
+}
+
+model Vote {
+  id           String     @id
+  userId       String
+  confessionId String
+  value        Int
+  createdAt    DateTime   @default(now())
+  Confession   Confession @relation(fields: [confessionId], references: [id])
+  User         User       @relation(fields: [userId], references: [id])
+
+  @@unique([userId, confessionId])
+}
